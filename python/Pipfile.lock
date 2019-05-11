@@ -1,0 +1,28 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "39441cc3e53ea258f8d4f85036922e1fd729ad15757d72a84fc54a4540baca85"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "sleekxmpp": {
+            "hashes": [
+                "sha256:d213c1de71d92505f95ced0460ee0f84fdc4ddcacb7d7dd343739ed4028e5569"
+            ],
+            "index": "pypi",
+            "version": "==1.3.3"
+        }
+    },
+    "develop": {}
+}
