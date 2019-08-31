@@ -4,15 +4,20 @@ import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat2.Chat;
 import org.jivesoftware.smack.chat2.ChatManager;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.roster.Roster;
+import org.jivesoftware.smack.roster.RosterListener;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jxmpp.jid.EntityBareJid;
+import org.jxmpp.jid.Jid;
 import org.jxmpp.jid.impl.JidCreate;
 import org.jxmpp.stringprep.XmppStringprepException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -34,7 +39,7 @@ public class Pladder {
     }
 
     private final String XMPP_HOST = "cluster.zoom.nu";
-    private final String MY_JID = "bot01";
+    private final String MY_JID = "bot09";
     private final String MY_PWD = "bot";
 
     private final Pattern HEJ_PATTERN = Pattern.compile("^hej.*") ;
@@ -50,7 +55,30 @@ public class Pladder {
         this.connection = new XMPPTCPConnection(config);
         connection.connect(); //Establishes a connection to the server
         connection.login(); //Logs in
-    }
+        Roster.setDefaultSubscriptionMode(Roster.SubscriptionMode.accept_all);
+        Roster roster = Roster.getInstanceFor(connection);
+        roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
+        roster.addRosterListener(new RosterListener() {
+            @Override
+            public void entriesAdded(Collection<Jid> collection) {
+
+            }
+
+            @Override
+            public void entriesUpdated(Collection<Jid> collection) {
+
+            }
+
+            @Override
+            public void entriesDeleted(Collection<Jid> collection) {
+
+            }
+
+            @Override
+            public void presenceChanged(Presence presence) {
+                System.getLogger(getClass().getName()).log(System.Logger.Level.INFO, presence.getFrom() + " presence changed to: " + presence.isAway());
+            }
+        });    }
 
     private void pladdra() throws IOException, SmackException.NotConnectedException, InterruptedException {
         final ChatManager chatManager = ChatManager.getInstanceFor(connection);
